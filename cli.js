@@ -15,12 +15,12 @@ const fs = require("fs");
   let id = await question("ID: ");
   let description = await question("Description: ");
   let username = await question("Username: ");
-  let tags = await question("Tags (Seperate with commas): ");
+  let tags = await question("Tags (separate with commas): ");
   let userscriptMatch = await question(
-    "Userscript Matches (Seperate with commas, Leave blank for no userscript): "
+    "Userscript Matches (separate with commas, leave blank for no userscript): "
   );
   let userstyleMatch = await question(
-    "Userstyle Matches (Seperate with commas, Leave blank for no userscript): "
+    "Userstyle Matches (separate with commas, leave blank for no userstyle): "
   );
   readline.close();
 
