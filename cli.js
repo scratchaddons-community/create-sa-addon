@@ -45,12 +45,12 @@ const fs = require("fs");
         name: username,
       },
     ],
-    tags: tags.split(/,\s/),
+    tags: tags.split(/,\s*/),
   };
   if (userscriptMatch) {
     addonJSON.userscripts = [
       {
-        matches: userscriptMatch.split(/,\s/),
+        matches: userscriptMatch.split(/,\s*/),
         url: "userscript.js",
       },
     ];
@@ -61,7 +61,7 @@ const fs = require("fs");
   if (userstyleMatch) {
     addonJSON.userstyles = [
       {
-        matches: userstyleMatch.split(/,\s/),
+        matches: userstyleMatch.split(/,\s*/),
         url: "userstyle.css",
       },
     ];
