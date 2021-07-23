@@ -38,6 +38,7 @@ const fs = require("fs");
   } else fs.mkdirSync(dir);
 
   const addonJSON = {
+    $schema: "https://raw.githubusercontent.com/ScratchAddons/manifest-schema/dist/schema.json",
     name,
     description,
     credits: [
@@ -50,8 +51,8 @@ const fs = require("fs");
   if (userscriptMatch) {
     addonJSON.userscripts = [
       {
-        matches: userscriptMatch.split(/,\s*/),
         url: "userscript.js",
+        matches: userscriptMatch.split(/,\s*/),
       },
     ];
 
@@ -61,8 +62,8 @@ const fs = require("fs");
   if (userstyleMatch) {
     addonJSON.userstyles = [
       {
-        matches: userstyleMatch.split(/,\s*/),
         url: "userstyle.css",
+        matches: userstyleMatch.split(/,\s*/),
       },
     ];
     fs.writeFileSync(dir + "\\userstyle.css", "");
