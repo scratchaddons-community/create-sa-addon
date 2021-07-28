@@ -1,5 +1,7 @@
 #! /usr/bin/env node
 
+const [node, source, addonId] = process.argv;
+
 const readline = require("readline").createInterface({
   input: process.stdin,
   output: process.stdout,
@@ -12,7 +14,7 @@ const fs = require("fs");
 
 (async () => {
   let name = await question("Name: ");
-  let id = await question("ID: ");
+  let id = (await question(`ID${addonId ? ` (${addonId})` : ""}:`)) || addonId;
   let description = await question("Description: ");
   let username = await question("Username: ");
   let tags = await question("Tags (separate with commas): ");
@@ -38,7 +40,8 @@ const fs = require("fs");
   } else fs.mkdirSync(dir);
 
   const addonJSON = {
-    $schema: "https://raw.githubusercontent.com/ScratchAddons/manifest-schema/dist/schema.json",
+    $schema:
+      "https://raw.githubusercontent.com/ScratchAddons/manifest-schema/dist/schema.json",
     name,
     description,
     credits: [
