@@ -1,5 +1,7 @@
 #! /usr/bin/env node
 
+const path = require("path");
+
 const [node, source, addonId] = process.argv;
 
 const readline = require("readline").createInterface({
@@ -26,7 +28,7 @@ const fs = require("fs");
   );
   readline.close();
 
-  let dir = process.cwd() + "\\addons\\" + id;
+  let dir = process.cwd() + path.sep + "addons" + path.sep + id;
 
   if (fs.existsSync(dir)) {
     if (fs.readdirSync(dir).length) {
@@ -60,7 +62,7 @@ const fs = require("fs");
     ];
 
     const userscriptJS = `export default async function ({ addon, msg, global, console }) {\n\n}\n`;
-    fs.writeFileSync(dir + "\\userscript.js", userscriptJS);
+    fs.writeFileSync(dir + path.sep + "userscript.js", userscriptJS);
   }
   if (userstyleMatch) {
     addonJSON.userstyles = [
@@ -69,15 +71,15 @@ const fs = require("fs");
         matches: userstyleMatch.split(/,\s*/),
       },
     ];
-    fs.writeFileSync(dir + "\\userstyle.css", "");
+    fs.writeFileSync(dir + path.sep + "userstyle.css", "");
   }
 
   fs.writeFileSync(
-    dir + "\\addon.json",
+    dir + path.sep + "addon.json",
     JSON.stringify(addonJSON, null, "  ") + "\n"
   );
 
-  const addonsDir = process.cwd() + "\\addons\\addons.json";
+  const addonsDir = process.cwd() + path.sep + "addons" + path.sep + "addons.json";
   let addonsJSON = fs.readFileSync(addonsDir, "utf8");
   const substringIndex = addonsJSON.indexOf("// NEW ADDONS ABOVE THIS ↑↑") - 5;
   addonsJSON =
