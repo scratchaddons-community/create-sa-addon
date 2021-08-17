@@ -1,6 +1,6 @@
 {
   "name": "create-sa-addon",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Quick and easy way to setup a folder for your new Scratch Addons addon!",
   "bin": {
     "create-sa-addon": "cli.js"
