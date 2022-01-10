@@ -1,18 +1,19 @@
 #! /usr/bin/env node
 
-const path = require("path");
+import { sep } from "path";
 
 const [node, source, addonId] = process.argv;
 
-const readline = require("readline").createInterface({
+import readline from 'readline'
+const readlineInterface = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
 });
 
 const question = (question) =>
-  new Promise((resolve) => readline.question(question, resolve));
+  new Promise((resolve) => readlineInterface.question(question, resolve));
 
-const fs = require("fs");
+import { existsSync, readdirSync, mkdirSync, writeFileSync, readFileSync } from "fs";
 
 (async () => {
   let name = await question("Name: ");
@@ -26,12 +27,12 @@ const fs = require("fs");
   let userstyleMatch = await question(
     "Userstyle Matches (separate with commas, leave blank for no userstyle): "
   );
-  readline.close();
+  readlineInterface.close();
 
-  let dir = process.cwd() + path.sep + "addons" + path.sep + id;
+  let dir = process.cwd() + sep + "addons" + sep + id;
 
-  if (fs.existsSync(dir)) {
-    if (fs.readdirSync(dir).length) {
+  if (existsSync(dir)) {
+    if (readdirSync(dir).length) {
       console.log(
         "\x1b[31m%s",
         "[Error] A folder with this addon ID already exists!",
@@ -39,7 +40,7 @@ const fs = require("fs");
       );
       return;
     }
-  } else fs.mkdirSync(dir);
+  } else mkdirSync(dir);
 
   const addonJSON = {
     $schema:
@@ -62,7 +63,7 @@ const fs = require("fs");
     ];
 
     const userscriptJS = `export default async function ({ addon, msg, global, console }) {\n\n}\n`;
-    fs.writeFileSync(dir + path.sep + "userscript.js", userscriptJS);
+    writeFileSync(dir + sep + "userscript.js", userscriptJS);
   }
   if (userstyleMatch) {
     addonJSON.userstyles = [
@@ -71,23 +72,23 @@ const fs = require("fs");
         matches: userstyleMatch.split(/,\s*/),
       },
     ];
-    fs.writeFileSync(dir + path.sep + "userstyle.css", "");
+    writeFileSync(dir + sep + "userstyle.css", "");
   }
 
-  fs.writeFileSync(
-    dir + path.sep + "addon.json",
+  writeFileSync(
+    dir + sep + "addon.json",
     JSON.stringify(addonJSON, null, "  ") + "\n"
   );
 
-  const addonsDir = process.cwd() + path.sep + "addons" + path.sep + "addons.json";
-  let addonsJSON = fs.readFileSync(addonsDir, "utf8");
+  const addonsDir = process.cwd() + sep + "addons" + sep + "addons.json";
+  let addonsJSON = readFileSync(addonsDir, "utf8");
   const substringIndex = addonsJSON.indexOf("// NEW ADDONS ABOVE THIS ↑↑") - 5;
   addonsJSON =
     addonsJSON.substring(0, substringIndex) +
     `  "${id}",\n` +
     addonsJSON.substring(substringIndex, addonsJSON.length);
 
-  fs.writeFileSync(addonsDir, addonsJSON);
+  writeFileSync(addonsDir, addonsJSON);
 
   console.log("\x1b[34m%s", "Addon created:", dir, "\x1b[0m");
 })();

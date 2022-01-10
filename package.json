@@ -2,6 +2,7 @@
   "name": "create-sa-addon",
   "version": "0.0.5",
   "description": "Quick and easy way to setup a folder for your new Scratch Addons addon!",
+  "type": "module",
   "bin": {
     "create-sa-addon": "cli.js"
   },
@@ -11,7 +12,6 @@
   "author": "TheColaber",
   "license": "GNU",
   "dependencies": {
-    "fs": "0.0.1-security",
     "readline": "^1.3.0"
   }
 }
