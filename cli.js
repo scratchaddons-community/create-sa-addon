@@ -62,7 +62,7 @@ import { existsSync, readdirSync, mkdirSync, writeFileSync, readFileSync } from 
       },
     ];
 
-    const userscriptJS = `export default async function ({ addon, msg, global, console }) {\n\n}\n`;
+    const userscriptJS = `export default async function ({ addon, msg, console }) {\n\n}\n`;
     writeFileSync(dir + sep + "userscript.js", userscriptJS);
   }
   if (userstyleMatch) {
