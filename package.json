@@ -10,8 +10,5 @@
     "scratchaddons"
   ],
   "author": "TheColaber",
-  "license": "GNU",
-  "dependencies": {
-    "readline": "^1.3.0"
-  }
+  "license": "GNU"
 }
