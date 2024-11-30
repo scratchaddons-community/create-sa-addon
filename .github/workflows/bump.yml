@@ -1,37 +1,43 @@
-name: 'Bump Version'
-
+name: Bump Version
 on:
   push:
-    branches:
-      - 'master'
+    branches: ["master"]
+    paths: ["*.js"]
 
 jobs:
   bump-version:
-    name: 'Bump Version on master'
-    runs-on: ubuntu-latest
+    name: Bump Version on master
+    runs-on: ubuntu-24.04
+    concurrency: bump-${{github.head_ref}}
 
     steps:
-      - name: 'Checkout source code'
-        uses: 'actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683' # v4.2.2
+      - name: Checkout source code
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           ref: ${{ github.ref }}
-      - name: 'cat package.json'
+
+      - name: cat package.json
         run: cat ./package.json
-      - name: 'Setup Node.js'
-        uses: 'actions/setup-node@f1f314fca9dfce2769ece7d933488f076716723e' # v1
+
+      - name: Setup Node.JS
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
         with:
-          node-version: 12
-      - name: 'Automated Version Bump'
+          cache: npm
+
+      - name: Automated Version Bump
         id: version-bump
-        uses: 'phips28/gh-action-bump-version@master'
+        uses: phips28/gh-action-bump-version@v11.0.7
         with:
           tag-prefix: 'v'
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: 'cat package.json'
+          token: ${{secrets.TOKEN || secrets.GITHUB_TOKEN}}
+          ref: ${{github.head_ref}}
+          repository: ${{github.event.pull_request.head.repo.full_name}}
+
+      - name: cat package.json
         run: cat ./package.json
-      - name: 'Output Step'
+
+      - name: Output Step
         env:
           NEW_TAG: ${{ steps.version-bump.outputs.newTag }}
         run: echo "new tag $NEW_TAG"
-        
