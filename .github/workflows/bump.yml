@@ -9,7 +9,6 @@ jobs:
   bump-version:
     name: Bump Version on master
     runs-on: ubuntu-24.04
-    concurrency: bump-${{github.head_ref}}
 
     steps:
       - name: Checkout source code
